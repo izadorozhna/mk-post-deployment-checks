@@ -3,7 +3,6 @@ import random
 import salt.client as client
 import mk_verificator.clients.nova as nova
 import mk_verificator.utils as utils
-# TODO merge vm and vm_kp in one fixture
 
 
 @pytest.fixture
@@ -25,15 +24,6 @@ def active_nodes(local_salt_client, skipped_nodes=None):
 
 @pytest.yield_fixture(scope="function")
 def vm():
-    mk_nova = nova.Nova()
-    vm = mk_nova.create_vm('qa-framework-{}'.format(random.randint(1, 100)))
-    mk_nova.wait_for_vm_status_is_active(vm.id)
-    yield vm
-    vm.delete()
-
-
-@pytest.yield_fixture(scope="function")
-def vm_kp():
     config = utils.get_configuration(__file__)
     mk_nova = nova.Nova()
     vm = mk_nova.create_vm('qa-framework-{}'.format(random.randint(1, 100)),
